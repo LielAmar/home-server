@@ -11,7 +11,7 @@ services:
       - ./homarr/appdata:/appdata
     environment:
       - TZ=Asia/Jerusalem
-      - SECRET_ENCRYPTION_KEY=<replace_me>
+      - SECRET_ENCRYPTION_KEY=${HOMARR_ENCRYPTION_KEY}
 
   openvpn:
     image: openvpn/openvpn-as
@@ -38,7 +38,7 @@ services:
       - "443:443" # HTTPS
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/certs:/etc/nginx/certs
+      - /etc/letsencrypt/archive:/etc/nginx/certs
     depends_on:
       - homarr
       - openvpn
