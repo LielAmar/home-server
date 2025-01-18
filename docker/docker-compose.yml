@@ -22,7 +22,7 @@ services:
       - "9943:943"
       - "9443:443"
     volumes:
-      - ./openvpn:/etc/openvpn # Persistent OpenVPN configuration
+      - ./openvpn:/openvpn # Persistent OpenVPN configuration
     cap_add:
       - NET_ADMIN
     environment:
