@@ -44,12 +44,17 @@ services:
       - openvpn
 
   cloudflare-ddns:
-    image: oznu/cloudflare-ddns:latest
+    image: favonia/cloudflare-ddns:latest
     container_name: cloudflare-ddns
     restart: unless-stopped
+    network_mode: host
+    read_only: true
+    cap_drop: [all]
+    security_opt: [no-new-privileges:true]
+
     environment:
       - TZ=Asia/Jerusalem
-      - API_KEY=${CLOUDFLARE_API_KEY}
-      - ZONE=${CLOUDFLARE_ZONE}
-      - SUBDOMAIN=${CLOUDFLARE_SUBDOMAIN}
+
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_KEY}
+      - DOMAINS=${CLOUDFLARE_DOMAINS}
       - PROXIED=${CLOUDFLARE_PROXIED}
