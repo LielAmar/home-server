@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  homarr:
+    image: ghcr.io/homarr-labs/homarr:latest
+    container_name: homarr
+    restart: unless-stopped
+    ports:
+      - "7575:7575"
+    volumes:
+      - ./homarr/appdata:/appdata
+    environment:
+      - TZ=Asia/Jerusalem
+      - SECRET_ENCRYPTION_KEY=<replace_me>
+
+  openvpn:
+    image: openvpn/openvpn-as
+    container_name: openvpn
+    restart: unless-stopped
+    ports:
+      - "1194:1194/udp"
+      - "9943:943"
+      - "9443:443"
+    volumes:
+      - ./openvpn:/etc/openvpn # Persistent OpenVPN configuration
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - OPENVPN_CONFIG=server.conf
+      - TZ=Asia/Jerusalem
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"  # HTTP
+      - "443:443" # HTTPS
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/certs:/etc/nginx/certs
+    depends_on:
+      - homarr
+      - openvpn
