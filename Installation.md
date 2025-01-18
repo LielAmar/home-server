@@ -122,3 +122,8 @@ sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
+
+12. Run everything
+```bash
+docker-compose up -d
+```

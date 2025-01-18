@@ -8,6 +8,7 @@ services:
     ports:
       - "7575:7575"
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
       - ./homarr/appdata:/appdata
     environment:
       - TZ=Asia/Jerusalem
